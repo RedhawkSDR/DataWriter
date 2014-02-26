@@ -19,6 +19,7 @@ program.  If not, see http://www.gnu.org/licenses/.
 <!DOCTYPE properties PUBLIC "-//JTRS//DTD SCA V2.2.2 PRF//EN" "properties.dtd">
 <properties>
   <simple id="filename" mode="readwrite" type="string">
+    <description>Name of output file binary file.  An addtional sri  file  will be writen with a .sri extension</description>
     <kind kindtype="configure"/>
     <action type="external"/>
   </simple>
