@@ -57,7 +57,7 @@ class DataWriter_i(DataWriter_base):
     def process(self):
         data, T, EOS, stream_id, sri, sri_changed, input_queue_flushed = self.port_dataFloat.getPacket()
         if input_queue_flushed:
-            self._log.warning("input Q flushed - data has been thrown on the floor")
+            self._log.warning("input queue flushed - data has been thrown on the floor")
         if data is None:
             return NOOP
         
