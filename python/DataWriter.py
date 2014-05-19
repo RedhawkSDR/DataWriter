@@ -41,6 +41,7 @@ class DataWriter_i(DataWriter_base):
           self.some_port = MyPortImplementation()
         """
         DataWriter_base.initialize(self)
+        self._log.warn('"DataWriter" has been depreciated and will cease being distributed and supported in future releases.  Please replace instances of this component with "FileWriter"')
         self.complex_data = None
         self._file = None
         self._metadata_config = None
