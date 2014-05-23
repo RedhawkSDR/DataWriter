@@ -50,7 +50,9 @@ class DataWriter_i(DataWriter_base):
         
         self._direction = "<" # Little endian
         self._format = 'f' # float
-    
+        self.addPropertyChangeListener("filename", self.propChange_filename)
+        self.addPropertyChangeListener("write", self.propChange_write)
+        self.addPropertyChangeListener("endian", self.propChange_endian)
     def stop(self):
         self._close_file()
         DataWriter_base.stop(self)
@@ -117,32 +119,31 @@ class DataWriter_i(DataWriter_base):
         self._metadata_config.set(time_section, "twsec", T.twsec)
         self._metadata_config.set(time_section, "tfsec", T.tfsec)
         
-    def onconfigure_prop_filename(self, oldval, newval):
-        self._log.debug("onconfigure_filename: %s, %s" % (oldval, newval))
-        self.filename = newval
+    def propChange_filename(self, id, oldval, newval):
+        self._log.debug("propChange_filename: %s, %s" % (oldval, newval))
+        #self.filename = newval
         if self.filename != oldval:
             # New filename
             self._filename_base = newval
             self._close_file()
             self._open_file()
     
-    def onconfigure_prop_write(self, oldval, newval):
-        self._log.debug("onconfigure_prop_write: %s, %s" % (oldval, newval))
-        if self.write != newval:
-            # Toggled write
-            if not newval:
+    def propChange_write(self, id, oldval, newval):
+        self._log.debug("propChange_write: %s, %s" % (oldval, newval))
+        if self.write != oldval:
+        # Toggled write
+            if not self.write:
                 self._close_file(clear_metadata=False)
             else:
                 self._open_file()
-        self.write = newval
     
-    def onconfigure_prop_endian(self, oldval, newval):
-        self._log.debug("onconfigure_prop_endian: %s, %s" % (oldval, newval))
-        if newval == "big":
-            self.endian = "big"
+    def propChange_endian(self, id, oldval, newval):
+        self._log.debug("propChange_endian: %s, %s" % (oldval, newval))
+        if self.endian == "big":
+            #self.endian = "big"
             self._direction = ">"
         else:
-            self.endian = "little"
+            #self.endian = "little"
             self._direction = "<"
     
     def _close_file(self, clear_metadata=True):
